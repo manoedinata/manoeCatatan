@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Daftar Catatan
+{% endblock %}
+
+{% block content %}
+    
+<div id="catatanList" class="mb-3">
+    <div class="container">
+
+        <div class="row">
+            <div class="col">                
+                <h3 class="mb-3">Daftar Catatan</h3>
+            </div>
+        </div>
+
+        <div class="row row-cols-2 row-cols-md-4 g-4">
+            {% for data in list %}
+            <div class="col">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ data["value"]["judul"] }}</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <i class="fa-solid fa-tag"></i>
+                            <a href="#" class="card-link">{{ data["value"]["kategori"] }}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fa-solid fa-hashtag"></i>
+                            {{ data["id"] }}
+                        </li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="{{ url_for('main_routes.view', id=data['id']) }}" class="btn btn-dark">Buka</a>
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

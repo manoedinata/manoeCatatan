@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    
+<div id="editorBlock" class="mb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                
+                <div class="d-grid gap-2 mb-3">
+                    <a href="{{ url_for('main_routes.list') }}" class="btn btn-dark mb-3" role="button">
+                        <i class="fa-solid fa-list"></i>
+                        Daftar Catatan
+                    </a>
+                </div>
+
+                <h3 class="mb-3">Catatan Baru</h3>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div id="alerts" class="mb-3">
+
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{category}} alert-dismissible fade show mt-3" role="alert">
+                        {{ message }}
+
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
+                    </div>
+                    {% endfor %}
+  
+                </div>
+                {% endif %}
+                {% endwith %}
+                
+                <form action="{{ url_for('main_routes.add') }}" method="post" id="editorForm">
+
+                    <!-- Judul -->
+                    <div class="mb-3">
+                        <label for="editorFormTitle" class="form-label">Judul Catatan</label>
+                        <input type="text" name="editorFormTitle" class="form-control" id="editorFormTitle" placeholder="Judul..." required>
+                    </div>
+
+                    <!-- Kategori -->
+                    <div class="mb-3">
+                        <label for="editorFormCategory" class="form-label">Kategori Catatan</label>
+                        <input type="text" name="editorFormCategory" class="form-control" id="editorFormCategory" placeholder="Kategori..." required>
+                    </div>
+
+                    <!-- Editor -->
+                    <div id="editor"></div>
+
+                    <!-- Hidden input for Markdown value -->
+                    <input type="hidden" name="editorFormMarkdown" id="editorFormMarkdown">
+
+                    <!-- Submit -->
+                    <button type="submit" id="editorFormSubmitBtn" class="btn btn-dark mt-3">Tambah!</button>
+
+                </form>
+
+                <!-- ToastUI -->
+                <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+                <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+
+                <script id="editorInit">
+                    // Init editor
+                    const editor = new toastui.Editor({
+                        el: document.getElementById("editor"),
+                        height: "500px",
+                        initialEditType: "markdown",
+                        previewStyle: "vertical",
+                    });
+
+                    document.getElementById("editorFormSubmitBtn").addEventListener("click", function(e) {
+                        console.log(editor.getMarkdown())
+                        console.log(editor.getHTML())
+                    })
+                </script>
+
+                <script id="editorFormSubmit">
+                    $("#editorForm").on("submit", (e) => {
+                        markdownBase64 = btoa(editor.getMarkdown())
+                        $("#editorFormMarkdown").val(markdownBase64)
+
+                        return true;
+                    })
+                </script>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
