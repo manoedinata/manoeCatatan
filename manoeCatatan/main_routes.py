@@ -92,3 +92,11 @@ def delete(id):
         flash(str(e), "danger")
 
     return redirect(url_for("main_routes.list"))
+
+@main.route("/category/<postCategory>")
+def category(postCategory):
+    categoryPosts = catatanDb.fetch({"value.kategori": postCategory})
+    count = categoryPosts.count
+    items = categoryPosts.items
+
+    return render_template("category.html", category=postCategory, count=count, items=items)

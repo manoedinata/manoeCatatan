@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Daftar Catatan
+    Kategori
 {% endblock %}
 
 {% block content %}
@@ -11,29 +11,13 @@
 
         <div class="row">
             <div class="col">                
-                <h3 class="mb-3">Daftar Catatan</h3>
-
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                <div id="alerts" class="mb-3">
-
-                    {% for category, message in messages %}
-                    <div class="alert alert-{{category}} alert-dismissible fade show mt-3" role="alert">
-                        {{ message }}
-
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
-                    </div>
-                    {% endfor %}
-
-                </div>
-                {% endif %}
-                {% endwith %}
+                <h3 class="mb-3">Kategori: <u>{{ category }}</u></h3>
             </div>
         </div>
 
-        {% if list %}
+        {% if items %}
         <div class="row row-cols-2 row-cols-md-4 g-4">
-            {% for data in list %}
+            {% for data in items %}
             <div class="col">
 
                 <div class="card">
@@ -43,9 +27,7 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <i class="fa-solid fa-tag"></i>
-                            <a href="{{ url_for('main_routes.category', postCategory=data['value']['kategori']) }}" class="card-link">
-                                {{ data["value"]["kategori"] }}
-                            </a>
+                            {{ data["value"]["kategori"] }}
                         </li>
                         <li class="list-group-item">
                             <i class="fa-solid fa-hashtag"></i>
@@ -90,7 +72,7 @@
         {% else %}
         <div class="row">
             <div class="col text-center">
-                <p class="lead"><i><b>Tidak ada catatan...</b></i></p>
+                <p class="lead"><i><b>Tidak ada catatan dengan kategori <u>{{ category }}</u>!</b></i></p>
             </div>
         </div>
         {% endif %}
