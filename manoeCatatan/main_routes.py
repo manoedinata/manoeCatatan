@@ -82,3 +82,13 @@ def edit(id):
             flash(str(e), "danger")
 
         return redirect(url_for("main_routes.edit", id=id))
+
+@main.route("/delete/<int:id>", methods=["POST"])
+def delete(id):
+    try:
+        catatanDb.delete(str(id))
+        flash(f"Sukses menghapus catatan {id}", "success")
+    except Exception as e:
+        flash(str(e), "danger")
+
+    return redirect(url_for("main_routes.list"))

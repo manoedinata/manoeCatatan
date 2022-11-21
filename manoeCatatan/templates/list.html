@@ -12,6 +12,22 @@
         <div class="row">
             <div class="col">                
                 <h3 class="mb-3">Daftar Catatan</h3>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div id="alerts" class="mb-3">
+
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{category}} alert-dismissible fade show mt-3" role="alert">
+                        {{ message }}
+
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
+                    </div>
+                    {% endfor %}
+
+                </div>
+                {% endif %}
+                {% endwith %}
             </div>
         </div>
 
@@ -35,6 +51,32 @@
                     </ul>
                     <div class="card-body">
                         <a href="{{ url_for('main_routes.view', id=data['id']) }}" class="btn btn-dark">Buka</a>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirm{{data['id']}}">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+
+                            <div class="modal fade" id="deleteConfirm{{data['id']}}" tabindex="-1" aria-labelledby="deleteConfirm{{data['id']}}Label" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="deleteConfirm{{data['id']}}Label">Modal title</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Yakin ingin menghapus catatan <u>{{ data['value']['judul'] }}</u> [{{ data['id'] }}]?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form action="{{ url_for('main_routes.delete', id=data['id']) }}" method="post">
+                                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Tutup</button>
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fa-solid fa-trash"></i>
+                                                Hapus!
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
                     </div>
                 </div>
 
