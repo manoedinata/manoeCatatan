@@ -28,13 +28,17 @@ def add():
         "konten": editorFormMarkdown
     }
 
+    if catatanDb.fetch({"value.judul": editorFormTitle}).items:
+        flash("Judul sudah ada!", "danger")
+        return redirect(url_for("main_routes.home"))
+
     try:
         catatanDb.insert({
             "key": str(id),
             "id": id,
             "value": data
         })
-        flash("Sukses menambah catatan!", category="success")
+        flash("Sukses menambah catatan!", "success")
     except Exception as e:
         flash(str(e), "danger")
 
