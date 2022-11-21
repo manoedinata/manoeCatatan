@@ -31,6 +31,7 @@
             </div>
         </div>
 
+        {% if list %}
         <div class="row row-cols-2 row-cols-md-4 g-4">
             {% for data in list %}
             <div class="col">
@@ -83,6 +84,13 @@
             </div>
             {% endfor %}
         </div>
+        {% else %}
+        <div class="row">
+            <div class="col text-center">
+                <p class="lead"><i><b>Tidak ada catatan...</b></i></p>
+            </div>
+        </div>
+        {% endif %}
 
             </div>
         </div>
