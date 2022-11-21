@@ -81,7 +81,7 @@ def edit(id):
         except Exception as e:
             flash(str(e), "danger")
 
-        return redirect(url_for("main_routes.edit", id=id))
+        return redirect(url_for("main_routes.view", id=id))
 
 @main.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
